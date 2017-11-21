@@ -29,9 +29,18 @@ io.on('connection', function (socket) {
       callback(true)
       socket.nickname=data;
       nicknames.push(socket.nickname);
-      io.sockets.emit("usernames",nicknames)
+      updatenames()
     }
 
+  })
+function updatenames(){
+  io.sockets.emit("usernames",nicknames)
+}
+
+  socket.on("disconnect",function(data){
+    if(!socket.nickname) return false
+      nicknames.splice(nicknames.indexOf(socket.nickname),1)
+    updatenames()
   })
 
 

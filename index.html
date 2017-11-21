@@ -57,7 +57,7 @@
         })
 
          socket.on('usernames', function (data) {
-            $usernames.append(data + '<br>')
+            $usernames.html(data)
         })
 //   socket.on('news', function (data) {
 //     console.log(data);
