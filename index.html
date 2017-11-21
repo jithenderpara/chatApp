@@ -1,0 +1,75 @@
+<html>
+
+<head>
+    <title>socketio</title>
+</head>
+
+<body>
+    <div id="chat">
+        <ul></ul>
+
+    </div>
+    <div id="users">
+        <form action="" id="nicknameform">
+            <input type="text" id="nickname">
+            <input type="submit">
+        </form>
+    </div>
+    <form id="sendmessage">
+        <input type="text" size="35" id="message">
+        <input type="submit">
+    </form>
+    <div id="usernames"></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect('http://localhost:155');
+        $form = $("#sendmessage");
+        $message = $("#message");
+        $chat = $("#chat");
+         $usernames = $("#usernames");
+        //Start nick name
+        $formname=$("#nicknameform");
+        $nickname=$("#nickname");
+        $formname.submit(function (e) {
+            e.preventDefault();
+            socket.emit('new user', $nickname.val(),function(data){
+                if(data){
+                    $("#users").hide();
+                }
+                else{
+                    alert("nick name exists, please chooise other one;")
+                }
+            });
+            $nickname.val("");
+        })
+
+        //End nick name
+        $form.submit(function (e) {
+            e.preventDefault();
+            //first parameter is name of emit, data object/string
+            socket.emit('send message', $message.val());
+            $message.val("");
+        })
+
+        socket.on('new message', function (data) {
+            $chat.append(data + '<br>')
+        })
+
+         socket.on('usernames', function (data) {
+            $usernames.append(data + '<br>')
+        })
+//   socket.on('news', function (data) {
+//     console.log(data);
+//     var content="";
+//     for(i=0;i<data.lenght;i++){
+//         content="<li>"+data.hello+"</li>"
+//     }
+//     $("#chat ul").html(content)
+//     socket.emit('my other event', { my: 'data' });
+//   });
+
+    </script>
+</body>
+
+</html>
