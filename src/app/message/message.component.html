@@ -30,90 +30,19 @@
 					</nav><!-- /.contacts-nav -->
 
 					<ul class="contact-list">
-
-						<li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_1.jpg" alt="Sacha Griffin" />
-								<span class="status online"></span>
-							</span>
-							<span class="info">
-								<span class="name">Sacha Griffin</span>
-								<span class="status-msg">Super deep status message blah blah</span>
-								<span class="unread-messages">11</span>
-							</span>
-						</li>
-
-						<li class="person active">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_2.jpeg" alt="Debby Jones" />
-								<span class="status online"></span>
-							</span>
-							<span class="info">
-								<span class="name">Debby Jones</span>
-								<span class="status-msg">New day, fresh start, fresh eadaf</span>
-								<span class="last-login">Just now</span>
-							</span>
-						</li>
-
-						<li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_3.jpg" alt="Sacha Griffin" />
-								<span class="status away"></span>
-							</span>
-							<span class="info">
-								<span class="name">Sarah White</span>
-								<span class="status-msg">Life becomes more peaceful when</span>
-								<span class="last-login">2 min</span>
-							</span>
-						</li>
-
-						<!-- 3rd -->
-
-						<li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_4.jpeg" alt="Johhny McGrump" />
-								<span class="status busy"></span>
-							</span>
-							<span class="info">
-								<span class="name">Johhny McGrump</span>
-								<span class="status-msg">Please do not disturb</span>
-								<span class="last-login">10 min</span>
-							</span>
-						</li>
-
-						<li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_5.jpg" alt="Tommy Tom" /><span class="status"></span>
-							</span>
-							<span class="info">
-								<span class="name">Tommy Tom</span>
-								<span class="status-msg">On vacation for two weeks</span>
-								<span class="last-login">Tuesday</span>
-							</span>
-						</li>
-
-						<li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_6.jpg" alt="James King" /><span class="status"></span>
-							</span>
-							<span class="info">
-								<span class="name">James King</span>
-								<span class="status-msg">Super deep status message afad</span>
-								<span class="last-login">Friday</span>
-							</span>
-						</li>
-            
-            <li class="person">
-							<span class="avatar">
-								<img src="http://vzkiss.com/demo/chatbox/images/avatar/avatar_7.jpg" alt="Natsumi Miyu" /><span class="status online"></span>
-							</span>
-							<span class="info">
-								<span class="name">Natsumi Miyu</span>
-								<span class="status-msg">Super deep status message afad</span>
-								<span class="last-login">Wednesday</span>
-							</span>
-						</li>
-
+						<!-- <li *ngFor="person in persons"></li> -->
+					<li class="person" *ngFor="let person of persons">
+						<span class="avatar">
+							<img [src]="person.pic" [alt]="person.name" />
+							<span class="status online"></span>
+						</span>
+						<span class="info">
+							<span class="name">{{person.name}}</span>
+							<span class="status-msg">{{person.statusmsg}}</span>
+							<span class="last-login" *ngIf="person.lastlogin!=''">{{person.lastlogin}}</span>
+							<span class="unread-messages" *ngIf="person.unreadmessages!=''">{{person.unreadmessages}}</span>
+						</span>
+					</li>
 					</ul><!-- /.contact-list -->
 
 				</div><!-- /.contacts -->
