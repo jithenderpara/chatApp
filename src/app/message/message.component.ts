@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'message',
   templateUrl: './message.component.html',
-  styleUrls: ['./message.component.scss']
+  styleUrls: ['./message.component.scss'],
+  providers : [ChatService]
 })
 export class MessageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private chatService : ChatService) { }
   public persons: any = [
     {
       "name": "Sacha Griffin", "pic": "http://vzkiss.com/demo/chatbox/images/avatar/avatar_1.jpg", "status": "online",
@@ -38,7 +40,16 @@ export class MessageComponent implements OnInit {
       "statusmsg": "Super deep status message afad", "unreadmessages": "", "lastlogin": "Wednesday"
     }
   ];
-  ngOnInit() {
+  msg : string;
+ngOnInit() {
+    this.chatService
+        .getMessage()
+        .subscribe(msg => {
+          this.msg = "1st "+msg;
+        });
   }
 
+  sendMsg(msg){
+     this.chatService.sendMessage(msg);
+  }
 }

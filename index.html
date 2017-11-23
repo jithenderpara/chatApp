@@ -48,16 +48,22 @@
         $form.submit(function (e) {
             e.preventDefault();
             //first parameter is name of emit, data object/string
-            socket.emit('send message', $message.val());
+            var sendObj={name:"All",message:$message.val()}
+            socket.emit('send message', sendObj);
             $message.val("");
         })
 
         socket.on('new message', function (data) {
-            $chat.append(data + '<br>')
+            $chat.append("<strong>"+data.nickname+"</strong>:"+data.msg + '<br>')
         })
 
          socket.on('usernames', function (data) {
-            $usernames.html(data)
+             var content="";
+             for(user in data){
+                 content=content+"<li>"+data[user]+"</li>"
+                
+             }
+            $usernames.html(content)
         })
 //   socket.on('news', function (data) {
 //     console.log(data);
@@ -68,6 +74,8 @@
 //     $("#chat ul").html(content)
 //     socket.emit('my other event', { my: 'data' });
 //   });
+
+
 
     </script>
 </body>

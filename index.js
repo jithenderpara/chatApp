@@ -1,64 +1,25 @@
-var app = require('http').createServer(handler)
-var io = require('socket.io')(app);
-var fs = require('fs');
+var http = require('http');
+var path = require('path');
+var express = require('express');
+var app = express();
 
-app.listen(155,function(){
-  console.log("server running on port 155");
+app.use(express.static(path.join(__dirname, '/dist')));
+
+app.get('*', function(req, res, next) {
+  res.sendFile(__dirname+"/dist/index.html");
 });
 
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
 
-    res.writeHead(200);
-    res.end(data);
-  });
-}
-
-nicknames=[];
+var server = http.createServer(app);
+var io = require('socket.io')(server);
 io.on('connection', function (socket) {
-  socket.on("new user",function(data,callback){
-    if(nicknames.indexOf(data)!=-1){
-      callback(false)
-    }
-    else{
-      callback(true)
-      socket.nickname=data;
-      nicknames.push(socket.nickname);
-      updatenames()
-    }
 
-  })
-function updatenames(){
-  io.sockets.emit("usernames",nicknames)
-}
+    socket.emit('msg', { msg: 'Welcome bro!' });
 
-  socket.on("disconnect",function(data){
-    if(!socket.nickname) return false
-      nicknames.splice(nicknames.indexOf(socket.nickname),1)
-    updatenames()
-  })
-
-
-
-
-//recive message from client
-socket.on('send message',function(data){
-  console.log(data)
-  //sending res to every one
-  //socket.emit("new message",data)
-  //sending res to every one except me using broadcast 
-  socket.broadcast.emit('new message',data)
-})
-
-
-  // socket.emit('news', { hello: 'world' });
-  // socket.on('my other event', function (data) {
-  //   console.log(data);
-  // });
-
+    socket.on('msg',function(msg){
+      console.log("msg you")
+    	socket.emit('msg', { msg: "you sent : "+msg });
+    })
 });
+
+server.listen(155);
