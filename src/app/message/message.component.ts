@@ -40,16 +40,29 @@ export class MessageComponent implements OnInit {
       "statusmsg": "Super deep status message afad", "unreadmessages": "", "lastlogin": "Wednesday"
     }
   ];
+  
   msg : string;
+   _messages:any=[];
+   public showlogin:boolean=true;
+  //$chat.append("<strong>"+data.nickname+"</strong>:"+data.msg + '<br>')
 ngOnInit() {
-    this.chatService
-        .getMessage()
-        .subscribe(msg => {
-          this.msg = "1st "+msg;
-        });
+    this.getusermessage()
   }
-
+  signup(name){   
+     this.chatService.CreateUser(name);
+     this.showlogin=false;
+  }
   sendMsg(msg){
-     this.chatService.sendMessage(msg);
+    let sendObj={name:"All",message:msg}
+     this.chatService.sendMessage(sendObj);
   }
+    getusermessage(){
+      this.chatService
+        .getMessage()
+        .subscribe(
+            data => {
+               this._messages.push(data) 
+            })
+       
+    }
 }

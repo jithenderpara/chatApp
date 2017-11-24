@@ -11,12 +11,16 @@ export class ChatService {
  
    getMessage() {
         return this.socket
-            .fromEvent<any>("msg")
-            .map(data => data.msg);
+            .fromEvent<any>("new message")
+            .map(data => data);
     }
 
-    sendMessage(msg: string) {
+    sendMessage(msg: any) {
         this.socket
-            .emit("msg", msg);
+            .emit("send message", msg);
     }
+         CreateUser(user: any) {
+                this.socket
+                    .emit("new user", user);
+            }
 }

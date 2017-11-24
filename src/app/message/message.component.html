@@ -1,8 +1,18 @@
-<div>
+<div *ngIf="!showlogin">
     <input type="text" #msgInput name="" value="">
     <button (click)="sendMsg(msgInput.value)">Send</button>
     <br>
-    <p>{{msg}}  </p>
+	<p>{{msg}}  </p>
+	<ul>
+		<li *ngFor="let message of _messages ">
+			<strong>{{message.nickname}}</strong><span>{{message.msg}}</span>
+		</li>
+	</ul>
+</div>
+<div *ngIf="showlogin">
+    <input type="text" #userInput name="" value="">  
+    <button  type="button" (click)="signup(userInput.value)">login</button>
+    <br>   
 </div>
 <div class="wrapper" style="display:none">
 

@@ -85,14 +85,14 @@ io.on('connection', function (socket) {
     //socket.emit("new message",data)
     //sending res to every one except me using broadcast 
 
- socket.on('msg',function(msg){
-   console.log("msg service")
-    	socket.emit('msg', { msg: "you sent : "+msg });
-    })
+ 
 
     
   })
-
+    socket.on('msg',function(msg){
+          console.log("msg service")
+          socket.emit('msg', { msg: "you sent : "+msg });
+      })
 
 
 });
