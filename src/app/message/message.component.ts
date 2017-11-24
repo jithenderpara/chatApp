@@ -5,11 +5,11 @@ import { ChatService } from '../services/chat.service';
   selector: 'message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
-  providers : [ChatService]
+  providers: [ChatService]
 })
 export class MessageComponent implements OnInit {
 
-  constructor(private chatService : ChatService) { }
+  constructor(private chatService: ChatService) { }
   public persons: any = [
     {
       "name": "Sacha Griffin", "pic": "http://vzkiss.com/demo/chatbox/images/avatar/avatar_1.jpg", "status": "online",
@@ -40,29 +40,44 @@ export class MessageComponent implements OnInit {
       "statusmsg": "Super deep status message afad", "unreadmessages": "", "lastlogin": "Wednesday"
     }
   ];
-  
-  msg : string;
-   _messages:any=[];
-   public showlogin:boolean=true;
+
+  msg: string;
+  _messages: any = [];
+  public users:any=[];
+  public showlogin: boolean = true;
   //$chat.append("<strong>"+data.nickname+"</strong>:"+data.msg + '<br>')
-ngOnInit() {
+  ngOnInit() {
     this.getusermessage()
+    this.getAllUsers()
   }
-  signup(name){   
-     this.chatService.CreateUser(name);
-     this.showlogin=false;
+  getAllUsers(){    
+ this.chatService
+      .GetloginUsers()
+      .subscribe(
+      data => {
+        this.users=data
+      })
   }
-  sendMsg(msg){
-    let sendObj={name:"All",message:msg}
+  signup(name) {
+    this.chatService.CreateUser(name);
+    this.showlogin = false;
+  }
+  sendMsg(msg) {
+    let sendObj = { name: "All", message: msg }
+    this.chatService.sendMessage(sendObj);
+  }
+  getusermessage() {
+    this.chatService
+      .getMessage()
+      .subscribe(
+      data => {
+        this._messages.push(data)
+      })
+
+  }
+  sendMsgToUser(msg,username) {
+    let sendObj = { name: username, message: msg }
      this.chatService.sendMessage(sendObj);
+
   }
-    getusermessage(){
-      this.chatService
-        .getMessage()
-        .subscribe(
-            data => {
-               this._messages.push(data) 
-            })
-       
-    }
 }

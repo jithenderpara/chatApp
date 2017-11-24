@@ -44,7 +44,7 @@ io.on('connection', function (socket) {
     })
   //recive message from client
   socket.on('send message', function (data, callback) {
-    console.log(data)
+    //console.log(data)
     if (data) {
       console.log(socket.nickname)
       if(data.name=="All"){
@@ -53,8 +53,9 @@ io.on('connection', function (socket) {
               nickname: socket.nickname
             })
         return false
-      }
-          if (data.name in users) {
+      }     
+      
+          if (data.name in users) {            
             users[data.name].emit('new message', {
               msg: data.message,
               nickname: socket.nickname

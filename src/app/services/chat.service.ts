@@ -8,7 +8,11 @@ import { Socket } from 'ngx-socket-io';
 export class ChatService {
  
     constructor(private socket: Socket) { }
- 
+ GetloginUsers(){     
+     return this.socket
+            .fromEvent<any>("usernames")
+            .map(data => data);
+ }
    getMessage() {
         return this.socket
             .fromEvent<any>("new message")
