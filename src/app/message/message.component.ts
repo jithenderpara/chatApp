@@ -44,6 +44,7 @@ export class MessageComponent implements OnInit {
   msg: string;
   _messages: any = [];
   public users:any=[];
+  public loginuser:string;
   public showlogin: boolean = true;
   //$chat.append("<strong>"+data.nickname+"</strong>:"+data.msg + '<br>')
   ngOnInit() {
@@ -55,12 +56,16 @@ export class MessageComponent implements OnInit {
       .GetloginUsers()
       .subscribe(
       data => {
-        this.users=data
+        this.users=data        
+        if(data.indexOf(this.loginuser)>-1)
+          this.users.splice(data.indexOf(this.loginuser, 1))
+         // delete data[data.indexOf(this.loginuser)]          
       })
   }
   signup(name) {
     this.chatService.CreateUser(name);
     this.showlogin = false;
+    this.loginuser=name;
   }
   sendMsg(msg) {
     let sendObj = { name: "All", message: msg }
@@ -80,4 +85,12 @@ export class MessageComponent implements OnInit {
      this.chatService.sendMessage(sendObj);
 
   }
+    public chatname:any;
+    public chatonline:any;
+    public showchatbox:boolean=false;
+    openChat(name){
+        this.chatname=name;
+        this.chatonline="Online";
+        this.showchatbox=true;
+    }
 }
